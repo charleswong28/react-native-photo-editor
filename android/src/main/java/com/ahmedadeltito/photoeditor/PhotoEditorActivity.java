@@ -503,7 +503,6 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
                     var7.printStackTrace();
                 }
 
-
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("imagePath", newPath);
                 setResult(Activity.RESULT_OK, returnIntent);
