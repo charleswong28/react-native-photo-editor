@@ -59,7 +59,12 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+
 import java.util.List;
+import java.util.UUID;
+
+import com.yalantis.ucrop.UCrop;
+import com.yalantis.ucrop.UCropActivity;
 
 import ui.photoeditor.R;
 
@@ -84,6 +89,16 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
     private PhotoEditorSDK photoEditorSDK;
     private String selectedImagePath;
     private int imageOrientation;
+
+    // CROP OPTION
+    private boolean cropperCircleOverlay = false;
+    private boolean freeStyleCropEnabled = false;
+    private boolean showCropGuidelines = true;
+    private boolean hideBottomControls = false;
+
+    String selectedImagePath = "";
+    ImageView photoEditImageView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +129,8 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
 
 
         Typeface newFont = getFontFromRes(R.raw.eventtusicons);
+        Typeface fontAwesome = getFontFromRes(R.raw.font_awesome_solid);
+
         emojiFont = getFontFromRes(R.raw.emojioneandroid);
 
         BrushDrawingView brushDrawingView = (BrushDrawingView) findViewById(R.id.drawing_view);
@@ -125,6 +142,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         RelativeLayout deleteRelativeLayout = (RelativeLayout) findViewById(R.id.delete_rl);
         TextView deleteTextView = (TextView) findViewById(R.id.delete_tv);
         TextView addImageEmojiTextView = (TextView) findViewById(R.id.add_image_emoji_tv);
+        TextView addCropTextView = (TextView) findViewById(R.id.add_crop_tv);
         TextView saveTextView = (TextView) findViewById(R.id.save_tv);
         TextView saveTextTextView = (TextView) findViewById(R.id.save_text_tv);
         undoTextView = (TextView) findViewById(R.id.undo_tv);
@@ -134,7 +152,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         TextView clearAllTextView = (TextView) findViewById(R.id.clear_all_tv);
         TextView clearAllTextTextView = (TextView) findViewById(R.id.clear_all_text_tv);
         TextView goToNextTextView = (TextView) findViewById(R.id.go_to_next_screen_tv);
-        ImageView photoEditImageView = (ImageView) findViewById(R.id.photo_edit_iv);
+        photoEditImageView = (ImageView) findViewById(R.id.photo_edit_iv);
         mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
         topShadow = findViewById(R.id.top_shadow);
         topShadowRelativeLayout = (RelativeLayout) findViewById(R.id.top_parent_rl);
@@ -150,6 +168,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         addTextView.setTypeface(newFont);
         addPencil.setTypeface(newFont);
         addImageEmojiTextView.setTypeface(newFont);
+        addCropTextView.setTypeface(fontAwesome);
         saveTextView.setTypeface(newFont);
         undoTextView.setTypeface(newFont);
         clearAllTextView.setTypeface(newFont);
@@ -208,6 +227,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
 
         closeTextView.setOnClickListener(this);
         addImageEmojiTextView.setOnClickListener(this);
+        addCropTextView.setOnClickListener(this);
         addTextView.setOnClickListener(this);
         addPencil.setOnClickListener(this);
         saveTextView.setOnClickListener(this);
@@ -276,6 +296,9 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
             }
             if (hiddenControls.get(i).toString().equalsIgnoreCase("sticker")) {
                 addImageEmojiTextView.setVisibility(View.INVISIBLE);
+            }
+            if (hiddenControls.get(i).toString().equalsIgnoreCase("crop")) {
+                addCropTextView.setVisibility(View.INVISIBLE);
             }
         }
     }
@@ -560,6 +583,9 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
             onBackPressed();
         } else if (v.getId() == R.id.add_image_emoji_tv) {
             mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED);
+        } else if(v.getId() == R.id.add_crop_tv) {
+            System.out.println("CROP IMAGE DUD");
+            startCropping();
         } else if (v.getId() == R.id.add_text_tv) {
             openAddTextPopupWindow("", -1);
         } else if (v.getId() == R.id.add_pencil_tv) {
@@ -713,6 +739,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         return tf;
     }
 
+<<<<<<< HEAD
     @TargetApi(Build.VERSION_CODES.KITKAT)
     protected String getPath(final Uri uri) {
         // DocumentProvider
