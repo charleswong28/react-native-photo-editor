@@ -6,10 +6,11 @@
     "homepage": "https://github.com/prscX/react-native-photo-editor.git",
     "repository": {
         "type": "git",
-        "url": "https://github.com/prscX/react-native-photo-editor.git"
+        "url": "https://github.com/mickmak-busicat/react-native-photo-editor.git"
     },
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "postinstall": "node ../pod-installer/index.js"
     },
     "keywords": [
         "react-native"
