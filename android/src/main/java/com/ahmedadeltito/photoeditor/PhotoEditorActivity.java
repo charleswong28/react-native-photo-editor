@@ -433,7 +433,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
                     Intent returnIntent = new Intent();
 
                     if (isSDCARDMounted()) {
-                        String folderName = "PhotoEditorSDK";
+                        String folderName = "Pixie";
                         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), folderName);
                         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
                             Log.d("PhotoEditorSDK", "Failed to create directory");
@@ -597,7 +597,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         } else if (v.getId() == R.id.erase_drawing_tv) {
             eraseDrawing();
         } else if (v.getId() == R.id.go_to_next_screen_tv) {
-            returnBackWithUpdateImage();
+            returnBackWithSavedImage();
         }
     }
 
