@@ -20,17 +20,17 @@ import android.os.CountDownTimer;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.support.media.ExifInterface;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.content.PermissionChecker;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.core.content.PermissionChecker;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -414,7 +414,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
                     Intent returnIntent = new Intent();
 
                     if (isSDCARDMounted()) {
-                        String folderName = "PhotoEditorSDK";
+                        String folderName = "Pixie";
                         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), folderName);
                         if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
                             Log.d("PhotoEditorSDK", "Failed to create directory");
@@ -575,7 +575,7 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         } else if (v.getId() == R.id.erase_drawing_tv) {
             eraseDrawing();
         } else if (v.getId() == R.id.go_to_next_screen_tv) {
-            returnBackWithUpdateImage();
+            returnBackWithSavedImage();
         }
     }
 
