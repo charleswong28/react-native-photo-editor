@@ -17,13 +17,22 @@ RCTResponseSenderBlock _onCancelEditing = nil;
 - (void)doneEditingWithImage:(UIImage *)image {
     if (_onDoneEditing == nil) return;
     
-    // Save image.
-    NSURL *tmpDirURL = [NSURL fileURLWithPath:NSTemporaryDirectory() isDirectory:YES];
-    NSURL *fileURL = [[tmpDirURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970]]] URLByAppendingPathExtension:@"jpg"];
-    
-    [UIImageJPEGRepresentation(image, 0.8) writeToURL:fileURL atomically:YES];
-    
-    _onDoneEditing(@[[fileURL absoluteString]]);
+    NSError* error;
+
+    BOOL isPNG = [_editImagePath.pathExtension.lowercaseString isEqualToString:@"png"];
+    NSString* path = _editImagePath;
+
+    if ([path containsString:@"file://"]) {
+        NSURL *url = [NSURL URLWithString:_editImagePath];
+        path = url.path;
+    }
+
+    [isPNG ? UIImagePNGRepresentation(image) : UIImageJPEGRepresentation(image, 0.8) writeToFile:path options:NSDataWritingAtomic error:&error];
+
+    if (error != nil)
+        NSLog(@"write error %@", error); 
+   
+    _onDoneEditing(@[]);
 }
 
 - (void)canceledEditing {
