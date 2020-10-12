@@ -735,7 +735,6 @@ public class PhotoEditorActivity extends AppCompatActivity implements View.OnCli
         return tf;
     }
 
-<<<<<<< HEAD
     @TargetApi(Build.VERSION_CODES.KITKAT)
     protected String getPath(final Uri uri) {
         // DocumentProvider
